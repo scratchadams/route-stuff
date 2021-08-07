@@ -18,8 +18,8 @@ services:
             context: ./router
             args:
                 BIRD_CONF: backbone2_bird.conf
-        image: seed-base-router
-        container_name: backbone2-router-10.2.2.1
+        image: backbone-router
+        container_name: backbone2-router
         cap_add:
             - ALL
         sysctls:
@@ -42,12 +42,13 @@ services:
             backbone-a-net-5:
                 ipv4_address: 10.16.5.3
 
+    
     c1_router:
         build:
             context: ./router
             args:
-                BIRD_CONF: c1_bird.conf
-        image: seed--base-router
+                BIRD_CONF: crouter1_bird.conf
+        image: c1-router
         container_name: c1-router
         cap_add:
             - ALL
@@ -61,13 +62,14 @@ services:
             c-net-1:
                 ipv4_address: 10.100.1.15
 
+    
     c2_router:
         build:
             context: ./router
             args:
-                BIRD_CONF: c2_bird.conf
-        image: seed--base-router
-        container_name: c2-router-10.3.3.3
+                BIRD_CONF: crouter2_bird.conf
+        image: c2-router
+        container_name: c2-router
         cap_add:
             - ALL
         sysctls:
@@ -80,12 +82,13 @@ services:
             c-net-2:
                 ipv4_address: 10.100.2.15
 
+    
     a1_router:
         build:
             context: ./router
             args:
-                BIRD_CONF: a1_bird.conf
-        image: seed-base-router
+                BIRD_CONF: arouter1_bird.conf
+        image: a1-router
         container_name: a1-router
         cap_add:
             - ALL
@@ -99,12 +102,13 @@ services:
             a-net-1:
                 ipv4_address: 10.101.1.15
 
+    
     a2_router:
         build:
             context: ./router
             args:
-                BIRD_CONF: a2_bird.conf
-        image: seed-base-router
+                BIRD_CONF: arouter2_bird.conf
+        image: a2-router
         container_name: a2-router
         cap_add:
             - ALL
