@@ -13,12 +13,30 @@ services:
         container_name: seed-base-host
         command: " echo 'exiting...' "
 
+
+    backbone1_router:
+        build:
+            context: ./router
+            args:
+                BIRD_CONF: backbone1_bird.conf
+        image: backbone1-router
+        container_name: backbone1-router
+        cap_add:
+            - ALL
+        sysctls:
+            - net.ipv4.ip_forward=1
+        networks:
+            backbone-c-net-2:
+                ipv4_address: 10.15.2.3
+            backbone-a-net-2:
+                ipv4_address: 10.16.2.3
+
     backbone2_router:
         build:
             context: ./router
             args:
                 BIRD_CONF: backbone2_bird.conf
-        image: backbone-router
+        image: backbone2-router
         container_name: backbone2-router
         cap_add:
             - ALL
@@ -42,7 +60,23 @@ services:
             backbone-a-net-5:
                 ipv4_address: 10.16.5.3
 
-    
+    backbone3_router:
+        build:
+            context: ./router
+            args:
+                BIRD_CONF: backbone3_bird.conf
+        image: backbone3-router
+        container_name: backbone3-router
+        cap_add:
+            - ALL
+        sysctls:
+            - net.ipv4.ip_forward=1
+        networks:
+            backbone-c-net-6:
+                ipv4_address: 10.15.6.3
+            backbone-a-net-6:
+                ipv4_address: 10.16.6.3
+
     c1_router:
         build:
             context: ./router
@@ -57,6 +91,8 @@ services:
         networks:
             backbone-c-net-1:
                 ipv4_address: 10.15.1.2
+            backbone-c-net-2:
+                ipv4_address: 10.15.2.2
             backbone-c-net-3:
                 ipv4_address: 10.15.3.2
             c-net-1:
@@ -79,6 +115,8 @@ services:
                 ipv4_address: 10.15.4.2
             backbone-c-net-5:
                 ipv4_address: 10.15.5.2
+            backbone-c-net-6:
+                ipv4_address: 10.15.6.2
             c-net-2:
                 ipv4_address: 10.100.2.15
 
@@ -97,6 +135,8 @@ services:
         networks:
             backbone-a-net-1:
                 ipv4_address: 10.16.1.2
+            backbone-a-net-2:
+                ipv4_address: 10.16.2.2
             backbone-a-net-3:
                 ipv4_address: 10.16.3.2
             a-net-1:
@@ -119,6 +159,8 @@ services:
                 ipv4_address: 10.16.4.2
             backbone-a-net-5:
                 ipv4_address: 10.16.5.2
+            backbone-a-net-6:
+                ipv4_address: 10.16.6.2
             a-net-2:
                 ipv4_address: 10.101.2.15
 
@@ -128,6 +170,10 @@ networks:
         ipam:
             config:
                 - subnet: 10.15.1.0/24
+    backbone-c-net-2:
+        ipam:
+            config:
+                - subnet: 10.15.2.0/24
     backbone-c-net-3:
         ipam:
             config:
@@ -140,11 +186,19 @@ networks:
         ipam:
             config:
                 - subnet: 10.15.5.0/24
+    backbone-c-net-6:
+        ipam:
+            config:
+                - subnet: 10.15.6.0/24
 
     backbone-a-net-1:
         ipam:
             config:
                 - subnet: 10.16.1.0/24
+    backbone-a-net-2:
+        ipam:
+            config:
+                - subnet: 10.16.2.0/24
     backbone-a-net-3:
         ipam:
             config:
@@ -157,6 +211,10 @@ networks:
         ipam:
             config:
                 - subnet: 10.16.5.0/24
+    backbone-a-net-6:
+        ipam:
+            config:
+                - subnet: 10.16.6.0/24
 
     a-net-1:
         ipam:
